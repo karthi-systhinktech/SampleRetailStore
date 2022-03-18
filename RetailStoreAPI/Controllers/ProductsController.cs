@@ -86,7 +86,7 @@ namespace ProductManagement.API.Controllers
                 Console.WriteLine("failed");
             con.Close();
 
-            return "Product added";
+            return "Product added successfully";
         }
 
         /**
@@ -110,7 +110,7 @@ namespace ProductManagement.API.Controllers
                 Console.WriteLine("failed");
             con.Close();
 
-            return "Product deleted";
+            return "Product deleted successfully";
         }
 
         /**
