@@ -1,18 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Configuration;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
 using System.Data;
-using Newtonsoft.Json;
-using System.Data.SqlTypes;
-using DbDataReaderExtension;
+
 
 namespace ProductManagement.API.Controllers
 {
@@ -40,23 +30,14 @@ namespace ProductManagement.API.Controllers
             while (reader.Read())
             {
                 product = new Products();
-                Int32 id = reader.GetInt32("id");
-                String productName = reader.GetString("productName");
-                String productDescription = reader.GetString("productDescription");
-                Int32 category = reader.GetInt32("category");
-                Boolean isEnabled = reader.GetBoolean("isEnabled");
-                Double grossPrice = reader.GetDouble("grossPrice");
-                Double discount = reader.GetDouble("discount");
-                Int32 availableQuantity = reader.GetInt32("availableQuantity");
-
-                product.SetId(id);
-                product.SetProductName(productName);
-                product.SetProductDescription(productDescription);
-                product.SetCategory(category);
-                product.SetIsEnabled(isEnabled);
-                product.SetGrossPrice(grossPrice);
-                product.SetDiscount(discount);
-                product.SetAvailbleQuantity(availableQuantity);
+                product.id = reader.GetInt32("id");
+                product.productName = reader.GetString("productName");
+                product.productDescription = reader.GetString("productDescription");
+                product.category = reader.GetInt32("category");
+                product.isEnabled = reader.GetBoolean("isEnabled");
+                product.grossPrice = reader.GetDouble("grossPrice");
+                product.discount = reader.GetDouble("discount");
+                product.availbleQuantity = reader.GetInt32("availableQuantity");
 
                 products.Add(product);
             }
@@ -79,14 +60,10 @@ namespace ProductManagement.API.Controllers
             con.Open();
             int i = cmd.ExecuteNonQuery();
 
-            // Checks if the product is added
-            if (i == 1)
-                Console.WriteLine("success");
-            else
-                Console.WriteLine("failed");
+            string message = (i == 1) ? "Product added succesfully." : "Failed to add a product.";
             con.Close();
 
-            return "Product added successfully";
+            return message;
         }
 
         /**
@@ -103,14 +80,10 @@ namespace ProductManagement.API.Controllers
             con.Open();
             int i = cmd.ExecuteNonQuery();
 
-            // Checks if the product is deleted
-            if (i != -1)
-               Console.WriteLine("success");
-            else
-                Console.WriteLine("failed");
+            string message = (i != -1) ? "Product deleted succesfully." : "Failed to delete a product.";
             con.Close();
 
-            return "Product deleted successfully";
+            return message;
         }
 
         /**
@@ -126,15 +99,10 @@ namespace ProductManagement.API.Controllers
 
             con.Open();
             int i = cmd.ExecuteNonQuery();
-
-            // Checks if the category is edited
-            if (i == 1)
-                Console.WriteLine("success");
-            else
-                Console.WriteLine("failed");
+            string message = (i == 1) ? "Product edited succesfully." : "Failed to edit a product.";
             con.Close();
 
-            return "Product edited";
+            return message;
         }
     }
 }

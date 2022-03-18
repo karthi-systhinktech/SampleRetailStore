@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
@@ -30,16 +29,10 @@ namespace ProductManagement.API.Controllers
             while (reader.Read())
             {
                 category = new Categories();
-                Int32 id = reader.GetInt32("id");
-                String categoryName = reader.GetString("categoryName");
-                Boolean isEnabled = reader.GetBoolean("isEnabled");
-                String categoryDescription = reader.GetString("categoryDescription");
-
-                category.SetId(id);
-                category.SetCategoryName(categoryName);
-                category.SetIsEnabled(isEnabled);
-                category.SetCategoryDescription(categoryDescription);
-
+                category.id = reader.GetInt32("id");
+                category.categoryName = reader.GetString("categoryName");
+                category.isEnabled = reader.GetBoolean("isEnabled");
+                category.categoryDescription = reader.GetString("categoryDescription");
                 categoriesList.Add(category);
             }
             reader.Close();
@@ -61,14 +54,10 @@ namespace ProductManagement.API.Controllers
             con.Open();
             int i = cmd.ExecuteNonQuery();
 
-            // Checks if the category is added
-            if (i == 1)
-                Console.WriteLine("success");
-            else
-                Console.WriteLine("failed");
+            string message = (i == 1) ? "Category added succesfully." : "Failed to add a new category.";
             con.Close();
 
-            return "Category added";
+            return message;
         }
 
         /**
@@ -85,14 +74,11 @@ namespace ProductManagement.API.Controllers
             con.Open();
             int i = cmd.ExecuteNonQuery();
 
-            // Checks if the category is edited
-            if (i == 1)
-                Console.WriteLine("success");
-            else
-                Console.WriteLine("failed");
+            string message = (i == 1) ? "Category edited succesfully." : "Failed to edit category.";
+
             con.Close();
 
-            return "Category edited";
+            return message;
         }
 
         /**
@@ -104,27 +90,19 @@ namespace ProductManagement.API.Controllers
             // Helps to establish a connection the database
             SqlConnection con = new SqlConnection("Data Source=(localdb)\\local;Initial Catalog=ProductManagement;");
 
-
             SqlCommand cmd = new SqlCommand("Delete from Products where category = " + category.id, con);
 
             con.Open();
             int i = cmd.ExecuteNonQuery();
-
-            // Checks if the category is deleted
             if (i != -1)
             {
                 cmd = new SqlCommand("Delete from categories where id = " + category.id, con);
-                
                 int j = cmd.ExecuteNonQuery();
-
-                if(j!=-1)
-                   Console.WriteLine("success");
+                string message = (j != -1) ? "Category deleted succesfully." : "Failed to delete a category.";
+                con.Close();
+                return message;
             }
-            else
-                Console.WriteLine("failed");
-            con.Close();
-
-            return "Category deleted";
+            return "Failed to delete a category.";
         }
     }
 }
