@@ -13,7 +13,7 @@ namespace ProductManagement.API.Controllers
         /**
          * Helps to list all the products
         */
-        [HttpGet("getProducts")]
+        [HttpGet("All")]
         public List<Products> getProducts()
         {
             // Helps to establish a connection the database
@@ -69,13 +69,13 @@ namespace ProductManagement.API.Controllers
         /**
         * Helps to delete a product in the category
         */
-        [HttpDelete("deleteProduct")]
-        public string deleteProduct(Products product)
+        [HttpDelete("{id}")]
+        public string deleteProduct(int id)
         {
             // Helps to establish a connection the database
             SqlConnection con = new SqlConnection("Data Source=(localdb)\\local;Initial Catalog=ProductManagement;");
 
-            SqlCommand cmd = new SqlCommand("Delete from products where id = " + product.id, con);
+            SqlCommand cmd = new SqlCommand("Delete from products where id = " + id, con);
 
             con.Open();
             int i = cmd.ExecuteNonQuery();

@@ -84,19 +84,19 @@ namespace ProductManagement.API.Controllers
         /**
         * Helps to delete a category in the store
         */
-        [HttpDelete("deleteCategory")]
-        public string deleteCategory(Categories category)
+        [HttpDelete("{id}")]
+        public string deleteCategory(int id)
         {
             // Helps to establish a connection the database
             SqlConnection con = new SqlConnection("Data Source=(localdb)\\local;Initial Catalog=ProductManagement;");
 
-            SqlCommand cmd = new SqlCommand("Delete from Products where category = " + category.id, con);
+            SqlCommand cmd = new SqlCommand("Delete from Products where category = " +id, con);
 
             con.Open();
             int i = cmd.ExecuteNonQuery();
             if (i != -1)
             {
-                cmd = new SqlCommand("Delete from categories where id = " + category.id, con);
+                cmd = new SqlCommand("Delete from categories where id = " +id, con);
                 int j = cmd.ExecuteNonQuery();
                 string message = (j != -1) ? "Category deleted succesfully." : "Failed to delete a category.";
                 con.Close();
