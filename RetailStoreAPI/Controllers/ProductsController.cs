@@ -37,7 +37,7 @@ namespace ProductManagement.API.Controllers
                 product.isEnabled = reader.GetBoolean("isEnabled");
                 product.grossPrice = reader.GetDouble("grossPrice");
                 product.discount = reader.GetDouble("discount");
-                product.availbleQuantity = reader.GetInt32("availableQuantity");
+                product.availableQuantity = reader.GetInt32("availableQuantity");
 
                 products.Add(product);
             }
@@ -56,7 +56,7 @@ namespace ProductManagement.API.Controllers
             SqlConnection con = new SqlConnection("Data Source=(localdb)\\local;Initial Catalog=ProductManagement;");
 
             // Query for adding the product in the database
-            SqlCommand cmd = new SqlCommand("INSERT INTO Products (productName,productDescription,category,isEnabled,grossPrice,discount,availableQuantity)VALUES('" + product.productName + "','" + product.productDescription + "','"+ product.category+ "','"+ product.isEnabled + "','" + product.grossPrice + "','" + product.discount + "','" + product.availbleQuantity +"');", con);
+            SqlCommand cmd = new SqlCommand("INSERT INTO Products (productName,productDescription,category,isEnabled,grossPrice,discount,availableQuantity)VALUES('" + product.productName + "','" + product.productDescription + "','"+ product.category+ "','"+ product.isEnabled + "','" + product.grossPrice + "','" + product.discount + "','" + product.availableQuantity +"');", con);
             con.Open();
             int i = cmd.ExecuteNonQuery();
 
@@ -95,7 +95,7 @@ namespace ProductManagement.API.Controllers
             // Helps to establish a connection the database
             SqlConnection con = new SqlConnection("Data Source=(localdb)\\local;Initial Catalog=ProductManagement;;");
 
-            SqlCommand cmd = new SqlCommand("UPDATE products SET productName ='" + product.productName + "', isEnabled = '" + product.isEnabled + "', productDescription = '" + product.productDescription + "', category = '" + product.category + "', grossPrice = '" + product.grossPrice + "', discount = '" + product.discount + "', availableQuantity = '" + product.availbleQuantity + "' WHERE id=" + product.id, con);
+            SqlCommand cmd = new SqlCommand("UPDATE products SET productName ='" + product.productName + "', isEnabled = '" + product.isEnabled + "', productDescription = '" + product.productDescription + "', category = '" + product.category + "', grossPrice = '" + product.grossPrice + "', discount = '" + product.discount + "', availableQuantity = '" + product.availableQuantity + "' WHERE id=" + product.id, con);
 
             con.Open();
             int i = cmd.ExecuteNonQuery();

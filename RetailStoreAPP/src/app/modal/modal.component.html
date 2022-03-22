@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
+</div>
+<form #form="ngForm">
+    <div class="modal-body">
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Name </label>
+            <div class="col-sm-10">
+                <input type="text" name="categoryName" class="form-control" id="inputPassword"
+                    [(ngModel)]="name">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+                <input type="text" name="categoryDescription" class="form-control" id="inputPassword"
+                    [(ngModel)]="description">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="dismiss()" >Close</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">Save</button>
+    </div>
+</form>

@@ -21,7 +21,7 @@ namespace ProductManagement.API
         
         public Double discount { get; set; }
 
-        public int availbleQuantity { get; set; }
+        public int availableQuantity { get; set; }
 
         public void SetId(int id){
             this.id = id;
@@ -54,8 +54,8 @@ namespace ProductManagement.API
             this.discount = discount;
         }
 
-        public void SetAvailbleQuantity(int availbleQuantity){
-            this.availbleQuantity = availbleQuantity;
+        public void SetAvailableQuantity(int availableQuantity){
+            this.availableQuantity = availableQuantity;
         }
     }
 }
