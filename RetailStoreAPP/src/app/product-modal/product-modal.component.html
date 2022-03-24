@@ -20,11 +20,10 @@
         <div class="mb-3 row">
             <label for="inputPassword" class="col-sm-2 col-form-label">Category</label>
             <div class="col-sm-10">
-                <!-- <select name="category" id="inputPassword" class="form-control" [(ngModel)]="categoryValue">
-                    <option disabled>Select Category</option>
-                    <option *ngFor="let category of categoryList">{{category}}</option>
-                </select> -->
-                <input name="category" type="text" class="form-control" id="inputPassword" [(ngModel)]="categoryValue">
+                <select id="categoryDropdown" name="categoryValue" [(ngModel)]="categoryValue" (change)="selected()">
+                    <option value="" disabled selected>Select Category</option>
+                    <option *ngFor="let category of categoryList" [ngValue]="category.categoryName">{{category.categoryName}}</option>
+                </select>
             </div>
         </div>
         <div class="mb-3 row">
@@ -48,7 +47,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="dismiss()">Close</button>
-        <button type="button" class="btn btn-core" (click)="confirm()">Save</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="dismiss()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">Save</button>
     </div>
 </form>

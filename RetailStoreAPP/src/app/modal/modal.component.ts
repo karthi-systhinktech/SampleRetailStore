@@ -2,6 +2,7 @@ import { EventEmitter, Input, Output } from "@angular/core";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, Optional } from "@angular/core";
 import { NgbActiveModal, NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { CategoriesModel } from "../services/categories-model.model";
+import { CategoryService } from "../services/categories.service";
 
 
 @Component({
@@ -20,8 +21,17 @@ export class ModalComponent {
 
   public categoryName: string = "";
   public categoryDescription: string = "";
+  public categoryList:CategoriesModel[];
+  
+  constructor(public modal: NgbActiveModal,public categoryService:CategoryService) {
+  }
 
-  constructor(public modal: NgbActiveModal) {
+  ngOnInit(): void {
+    this.categoryService.getCategoryList().subscribe(result=>{
+      this.categoryList = result as CategoriesModel[];
+    },error =>{
+      console.log("Error occured while fetching the categories");
+    });
   }
 
   get title() {
@@ -45,7 +55,7 @@ export class ModalComponent {
 
   set description(description: string) {
     if (description == "")
-      this.categoryDescription = this.EditCategoryDetail.categoryDescription
+      this.categoryDescription = this.EditCategoryDetail.categoryDescription;
     else
       this.categoryDescription = description;
   }
@@ -54,9 +64,17 @@ export class ModalComponent {
 
   confirm() {
     var data = {} as CategoriesModel;
-    data.categoryDescription = this.categoryDescription;
+   if(this.categoryName=="")
+      data.categoryName=this.EditCategoryDetail.categoryName;
+   else
     data.categoryName = this.categoryName;
+   if(this.categoryDescription=="")
+      data.categoryDescription=this.EditCategoryDetail.categoryDescription;
+  else
+     data.categoryDescription = this.categoryDescription;
 
+    
+   
     this.returnData.emit(data);
     this.modal.close();
   }
@@ -64,5 +82,9 @@ export class ModalComponent {
   dismiss() {
     this.returnData.emit(undefined);
     this.modal.close();
+  }
+
+  selectedCategory(){
+    console.log("selectedCategory")
   }
 }

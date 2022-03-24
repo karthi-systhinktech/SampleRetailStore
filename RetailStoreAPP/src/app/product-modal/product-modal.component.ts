@@ -2,6 +2,7 @@ import { Input, Output } from '@angular/core';
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriesModel } from '../services/categories-model.model';
+import { CategoryService } from '../services/categories.service';
 import { ProductsModel } from '../services/products-model.model';
 
 @Component({
@@ -18,25 +19,30 @@ export class ProductModalComponent implements OnInit {
 
   public productName: string = "";
   public productDescription: string = "";
-  public category:number;
-  public grossPrice:number;
-  public discount:number;
-  public availableQuantity:number;
-   public categoryList:CategoriesModel[];
+  public category: string;
+  public grossPrice: number;
+  public discount: number;
+  public availableQuantity: number;
+  public categoryList: CategoriesModel[];
 
 
-  constructor(public modal: NgbActiveModal) { }
+  constructor(public modal: NgbActiveModal, public categoryService: CategoryService) { }
 
   ngOnInit(): void {
+    this.categoryService.getCategoryList().subscribe(result => {
+      this.categoryList = result as CategoriesModel[];
+    }, error => {
+      console.log("Error occured while fetching the categories");
+    });
   }
+
+
 
   get title() {
     return this.isAddMode ? "Add Product" : "Edit Product";
   }
 
   get name() {
-    console.log("111")
-    console.log(this.categoryList)
     return (!this.isAddMode) ? this.EditProductDetail.productName : "";
   }
 
@@ -58,62 +64,82 @@ export class ProductModalComponent implements OnInit {
       this.productDescription = description;
   }
 
-  get categoryValue(){
-    return (!this.isAddMode) ? this.EditProductDetail.category : 0;
+  get categoryValue() {
+    return (!this.isAddMode) ? this.EditProductDetail.category : "";
   }
 
-  set categoryValue(categoryValue: number){
-    if (categoryValue == 0)
-      this.category = this.EditProductDetail.category;
-    else
-      this.category = categoryValue;
+  set categoryValue(categoryValue: string) {
+    this.category=categoryValue;
   }
 
-  get grossPriceValue(){
+  get grossPriceValue() {
     return (!this.isAddMode) ? this.EditProductDetail.grossPrice : 0;
   }
 
-  set grossPriceValue(grossPriceValue: number){
+  set grossPriceValue(grossPriceValue: number) {
     if (grossPriceValue == 0)
-    this.grossPrice = this.EditProductDetail.grossPrice;
-  else
-    this.grossPrice = grossPriceValue;
+      this.grossPrice = this.EditProductDetail.grossPrice;
+    else
+      this.grossPrice = grossPriceValue;
   }
 
-  get discountValue(){
+  get discountValue() {
     return (!this.isAddMode) ? this.EditProductDetail.discount : 0;
   }
 
-  set discountValue(discountValue: number){
+  set discountValue(discountValue: number) {
     if (discountValue == 0)
-    this.discount = this.EditProductDetail.discount;
-  else
-    this.discount = discountValue;
+      this.discount = this.EditProductDetail.discount;
+    else
+      this.discount = discountValue;
   }
 
-  get availableQuantityValue(){
+  get availableQuantityValue() {
     return (!this.isAddMode) ? this.EditProductDetail.availableQuantity : 0;
   }
 
-  set availableQuantityValue(availableQuantityValue: number){
+  set availableQuantityValue(availableQuantityValue: number) {
     if (availableQuantityValue == 0)
-    this.availableQuantity = this.EditProductDetail.availableQuantity;
-  else
-    this.availableQuantity = availableQuantityValue;
+      this.availableQuantity = this.EditProductDetail.availableQuantity;
+    else
+      this.availableQuantity = availableQuantityValue;
   }
 
 
   confirm() {
     var data = {} as ProductsModel;
-    data.productDescription = this.productDescription;
-    data.productName = this.productName;
-    data.category=this.category;
-    data.grossPrice=this.grossPrice;
-    data.discount=this.discount;
-    data.availableQuantity=this.availableQuantity;
+
+    if (this.productName == "")
+      data.productName = this.EditProductDetail.productName;
+    else
+      data.productName = this.productName;
+    if (this.productDescription == "")
+      data.productDescription = this.EditProductDetail.productDescription;
+    else
+      data.productDescription = this.productDescription;
+    if (this.category == "")
+      data.category = this.EditProductDetail.category;
+    else
+      data.category = this.category;
+    if (this.grossPrice == undefined)
+      data.grossPrice = this.EditProductDetail.grossPrice;
+    else
+      data.grossPrice = this.grossPrice;
+    if (this.discount == undefined)
+      data.discount = this.EditProductDetail.discount;
+    else
+      data.discount = this.discount;
+    if (this.availableQuantity == undefined)
+      data.availableQuantity = this.EditProductDetail.availableQuantity;
+    else
+      data.availableQuantity = this.availableQuantity;
 
     this.returnData.emit(data);
     this.modal.close();
+  }
+
+  selected(){
+    console.log(this.categoryValue)
   }
 
   dismiss() {

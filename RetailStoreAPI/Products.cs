@@ -13,7 +13,7 @@ namespace ProductManagement.API
 
         public string productDescription { get; set; }
 
-        public int category { get; set; }
+        public string category { get; set; }
 
         public bool isEnabled { get; set; }
 
@@ -37,7 +37,7 @@ namespace ProductManagement.API
             this.productDescription = productDescription;
         }
 
-        public void SetCategory(int category){
+        public void SetCategory(string category){
             this.category = category;
         }
 

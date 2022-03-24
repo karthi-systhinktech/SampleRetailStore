@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ModalComponent } from './modal/modal.component';
 import { ProductModalComponent } from './product-modal/product-modal.component';
+import { FilterModalComponent } from './filter-modal/filter-modal.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import {  ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { ProductModalComponent } from './product-modal/product-modal.component';
     NavbarComponent,
     ModalComponent,
     ProductModalComponent,
+    FilterModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,9 @@ import { ProductModalComponent } from './product-modal/product-modal.component';
     NgbModule,
     FormsModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

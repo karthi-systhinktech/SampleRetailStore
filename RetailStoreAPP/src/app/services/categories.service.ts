@@ -22,6 +22,13 @@ export class CategoryService {
     return this.http.get(environment.apiUrl+this.controller+"/All");
   }
 
+  getIdByCategoryName(categoryName:CategoriesModel):Observable<CategoriesModel>{
+    const headers = { 'content-type': 'application/json',}  
+
+    const body=JSON.stringify(categoryName);
+    return this.http.post<CategoriesModel>(environment.apiUrl+this.controller+"/getId",body,{ headers, responseType: 'text' as 'json'  });
+  }
+
   deleteCategory(id:number){
     return this.http.delete(environment.apiUrl+this.controller+"/"+id,{responseType:'text'});
   }

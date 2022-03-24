@@ -28,7 +28,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.loadCategoryTable)
     this.loadCategoryTable();
   }
 

@@ -40,6 +40,35 @@ namespace ProductManagement.API.Controllers
             return categoriesList;
         }
 
+
+        /**
+         * Helps to list all the categories 
+        */
+        [HttpPost("getId")]
+        public List<Categories> getIdByCategoryName(Categories categories)
+        {
+            // Helps to establish a connection the database
+            SqlConnection con = new SqlConnection("Data Source=(localdb)\\local;Initial Catalog=ProductManagement;");
+
+            // Query for getting id for the respective category
+            SqlCommand cmd = new SqlCommand("select * from categories where categoryName= '"+ categories.categoryName + "';", con);
+
+            // To open the connnection
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            List<Categories> categoriesList = new List<Categories>();
+            Categories category;
+            while (reader.Read())
+            {
+                category = new Categories();
+                category.id = reader.GetInt32("id");
+                categoriesList.Add(category);
+            }
+            reader.Close();
+            con.Close();
+            return categoriesList;
+        }
+
         /**
         * Helps to add a new category in the store
         */

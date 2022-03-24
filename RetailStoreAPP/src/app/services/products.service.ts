@@ -26,6 +26,10 @@ export class ProductsService {
     return this.http.delete(environment.apiUrl+this.controller+"/"+id,{responseType:'text'});
   }
 
+  getProductByCategoryName(categoryId:Object[]){
+    return this.http.get(environment.apiUrl+this.controller+"/getProductsByCategoryName/"+categoryId);
+  }
+
   editProduct(form:ProductsModel):Observable<string>{
     const headers = { 'content-type': 'application/json',}  
     const body=JSON.stringify(form);
