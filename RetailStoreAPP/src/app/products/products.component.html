@@ -12,6 +12,9 @@
             <div>
                 <button class="btn" (click)="showFilterDialog()"><i class="fa fa-filter"></i> Filter By</button>
             </div>
+            <div>
+                <button class="btn" (click)="reset()"><i class="fa fa-refresh"></i> Reset </button>
+            </div>
         </div>
     </div>
 
@@ -24,18 +27,18 @@
             <th>Product Description</th>
             <th>Is Enabled</th>
             <th>Category</th>
-            <th>Gross Price</th>
-            <th>Discount</th>
+            <th>Gross Price (₹)</th>
+            <th>Discount (%)</th>
             <th>Available Quantity</th>
-            <th>Net Price</th>
+            <th>Net Price (₹)</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
 
-        <tr *ngFor="let pl of filterList ">
-            <td>{{pl.id}}</td>
+        <tr *ngFor="let pl of filterList index as i ">
+            <td>{{i+1}}</td>
             <td>{{pl.productName}}</td>
-            <td>{{pl.productDescription}}</td>
+            <td id="productDescription">{{pl.productDescription}}</td>
             <td><label class="switch">
                     <input type="checkbox">
                     <span class="slider round"></span>

@@ -20,8 +20,8 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        <tr *ngFor="let cl of categories">
-            <td>{{cl.id}}</td>
+        <tr *ngFor="let cl of categories index as i ">
+            <td>{{i+1}}</td>
             <td>{{cl.categoryName}}</td>
             <td>{{cl.categoryDescription}}</td>
             <td><label class="switch">

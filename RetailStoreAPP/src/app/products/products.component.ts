@@ -9,6 +9,8 @@ import { CategoriesModel } from '../services/categories-model.model';
 import { CategoryService } from '../services/categories.service';
 import { FilterModalComponent } from '../filter-modal/filter-modal.component';
 import { FilterModal } from '../services/filter-model.model';
+import { contains } from 'sequelize/types/lib/operators';
+import { keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-products',
@@ -40,7 +42,6 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProductTable(false);
-    console.log(this.filterList)
   }
 
   private loadProductTable(isLoaded: boolean): void {
@@ -122,6 +123,12 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+
+  reset(){
+    this.loadProductTable(false);
+  }
+
+
   showFilterDialog() {
 
     var modalRef = this.ngbModal.open(FilterModalComponent, { size: 'md', backdrop: 'static' });
@@ -133,7 +140,7 @@ export class ProductsComponent implements OnInit {
         if (result.length == 0) {
           this.filterList = this.products;
         } else if (result.length == 1) {
-          if (result[0].id == 0) {
+          if (result[0].id == 0 && result[0].discountRange != -1) {
             for (var k = 0; k < this.filterList.length; k++) {
               for (var x = 0; x < result.length; x++) {
                 if (result[x].id == 0) {
@@ -146,11 +153,89 @@ export class ProductsComponent implements OnInit {
                 }
               }
             }
+          } else if (result[0].id == 0 && result[0].productName != "") {
+            for (var i = 0; i < this.filterList.length; i++) {
+              if ((this.filterList[i].productName).includes(result[0].productName)) {
+
+              } else {
+                this.filterList.splice(i, 1);
+                --i;
+              }
+
+            }
+
+          } else if (result[0].id == 0 && result[0].productDescription != "") {
+            for (var i = 0; i < this.filterList.length; i++) {
+              if ((this.filterList[i].productDescription).includes(result[0].productDescription)) {
+
+              } else {
+                this.filterList.splice(i, 1);
+                --i;
+              }
+
+            }
+          } else if (result[0].id == 0 && result[0].minGrossPriceValue != -1 && result[0].maxGrossPriceValue != -1) {
+            for (var i = 0; i < this.filterList.length; i++) {
+              if ((this.filterList[i].grossPrice >= result[0].minGrossPriceValue && this.filterList[i].grossPrice <= result[0].maxGrossPriceValue)) {
+
+              } else {
+                this.filterList.splice(i, 1);
+                --i;
+              }
+            }
+          } else if (result[0].id == 0 &&result[0].minGrossPriceValue != -1) {
+            for (var i = 0; i < this.filterList.length; i++) {
+              if ((this.filterList[i].grossPrice >= result[0].minGrossPriceValue)) {
+
+              } else {
+                this.filterList.splice(i, 1);
+                --i;
+              }
+            }
+          } else if (result[0].id == 0 &&result[0].maxGrossPriceValue != -1) {
+            for (var i = 0; i < this.filterList.length; i++) {
+              if ((this.filterList[i].grossPrice <= result[0].maxGrossPriceValue)) {
+
+              } else {
+                this.filterList.splice(i, 1);
+                --i;
+              }
+
+            }
+          } else if (result[0].id == 0 && result[0].minAvailableQuantityValue != -1 && result[0].maxAvailableQuantityValue != -1) {
+            for (var i = 0; i < this.filterList.length; i++) {
+              if ((this.filterList[i].availableQuantity >= result[0].minAvailableQuantityValue && this.filterList[i].availableQuantity <= result[0].maxAvailableQuantityValue)) {
+
+              } else {
+                this.filterList.splice(i, 1);
+                --i;
+              }
+            }
+          } else if (result[0].id == 0 &&result[0].minAvailableQuantityValue != -1) {
+            for (var i = 0; i < this.filterList.length; i++) {
+              if ((this.filterList[i].availableQuantity >= result[0].minAvailableQuantityValue)) {
+
+              } else {
+                this.filterList.splice(i, 1);
+                --i;
+              }
+
+            }
+          } else if (result[0].id == 0 &&result[0].maxAvailableQuantityValue != -1) {
+            for (var i = 0; i < this.filterList.length; i++) {
+              if ((this.filterList[i].availableQuantity <= result[0].maxAvailableQuantityValue)) {
+
+              } else {
+                this.filterList.splice(i, 1);
+                --i;
+              }
+
+            }
           } else {
             for (var i = 0; i < result.length; i++) {
               var count = 0;
               for (var j = 0; j < this.filterList.length; j++) {
-                if (result[i].categoryName== this.filterList[j].category) {
+                if (result[i].categoryName == this.filterList[j].category) {
                 } else {
                   this.filterList.splice(j, 1);
                   --j;
@@ -159,23 +244,78 @@ export class ProductsComponent implements OnInit {
             }
           }
         } else {
-          for (var i = 0; i < this.filterList.length; i++) {
-            var count = 0;
-            for (var j = 0; j < result.length; j++) {
-              if (result[j].categoryName == this.filterList[i].category) {
+          for(var i=0;i<result.length;i++){
+            if(result[i].id!=0){
+               for (var i = 0; i < this.filterList.length; i++) {
+              var count = 0;
+              for (var j = 0; j < result.length; j++) {
+                 if (result[j].categoryName == this.filterList[i].category) {
                 count++;
-              }
-            }
+               }
+             }
 
             if (count == 0) {
               this.filterList.splice(i, 1);
               --i;
             }
           }
+         }
+        }
+
           for (var k = 0; k < this.filterList.length; k++) {
             for (var x = 0; x < result.length; x++) {
-              if (result[x].id == 0) {
+              if (result[x].id == 0 && result[x].discountRange != -1) {
                 if (result[x].discountRange == this.filterList[k].discount) {
+                } else {
+                  this.filterList.splice(k, 1);
+                  --k;
+                }
+              }
+            }
+          }
+
+          for (var k = 0; k < this.filterList.length; k++) {
+            for (var x = 0; x < result.length; x++) {
+              if (result[x].id == 0 && result[x].productName != "") {
+                if ((this.filterList[k].productName).includes(result[x].productName)) {
+                } else {
+                  this.filterList.splice(k, 1);
+                  --k;
+                }
+              }
+            }
+          }
+
+          for (var k = 0; k < this.filterList.length; k++) {
+            for (var x = 0; x < result.length; x++) {
+              if (result[x].id == 0 && result[x].productDescription != "") {
+                if ((this.filterList[k].productDescription).includes(result[x].productDescription)) {
+                } else {
+                  this.filterList.splice(k, 1);
+                  --k;
+                }
+              }
+            }
+          }
+
+          for (var k = 0; k < this.filterList.length; k++) {
+            for (var x = 0; x < result.length; x++) {
+              if (result[x].id == 0 && result[x].minGrossPriceValue != -1 && result[x].maxGrossPriceValue != -1) {
+                if ((this.filterList[k].grossPrice >= result[x].minGrossPriceValue && this.filterList[k].grossPrice <= result[x].maxGrossPriceValue)) {
+
+                } else {
+                  this.filterList.splice(k, 1);
+                  --k;
+                }
+              } else if (result[x].id == 0 && result[0].minGrossPriceValue != -1) {
+                if ((this.filterList[k].grossPrice >= result[x].minGrossPriceValue)) {
+
+                } else {
+                  this.filterList.splice(k, 1);
+                  --k;
+                }
+              } else if (result[x].id == 0 && result[x].maxGrossPriceValue != -1) {
+                if ((this.filterList[k].grossPrice <= result[x].maxGrossPriceValue)) {
 
                 } else {
                   this.filterList.splice(k, 1);
@@ -184,6 +324,34 @@ export class ProductsComponent implements OnInit {
               }
             }
           }
+
+          for (var k = 0; k < this.filterList.length; k++) {
+            for (var x = 0; x < result.length; x++) {
+              if (result[x].id == 0 && result[x].minAvailableQuantityValue != -1 && result[x].maxAvailableQuantityValue != -1) {
+                if ((this.filterList[k].availableQuantity >= result[x].minAvailableQuantityValue && this.filterList[k].availableQuantity <= result[x].maxAvailableQuantityValue)) {
+
+                } else {
+                  this.filterList.splice(k, 1);
+                  --k;
+                }
+              } else if (result[x].id == 0 && result[0].minAvailableQuantityValue != -1) {
+                if ((this.filterList[k].availableQuantity >= result[x].minAvailableQuantityValue)) {
+
+                } else {
+                  this.filterList.splice(k, 1);
+                  --k;
+                }
+              } else if (result[x].id == 0 && result[x].minAvailableQuantityValue != -1) {
+                if ((this.filterList[k].availableQuantity <= result[x].maxAvailableQuantityValue)) {
+
+                } else {
+                  this.filterList.splice(k, 1);
+                  --k;
+                }
+              }
+            }
+          }
+          
         }
       }
       else {

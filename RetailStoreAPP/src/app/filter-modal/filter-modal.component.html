@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Filter Product</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
+</div>
+
+<form #form="ngForm">
+    <div class="modal-body">
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-4 col-form-label" style="width: 30%;">Product Name</label>
+            <div class="col-sm-6" style="width: 68%;">
+                <input name="productName" type="text" class="form-control" id="textField" (input)="productNameChanged($event)">
+            </div>
+        </div>
+        <div class="mb-3 row" >
+            <label for="inputPassword" class="col-sm-4 col-form-label" style="width: 30%;">Description</label>
+            <div class="col-sm-6" style="width: 68%;">
+                <input name="description" type="text" class="form-control" id="textField" (input)="productDescriptionChanged($event)">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="inputPassword" style="width: 30%;" class="col-sm-4 col-form-label">Category</label>
+            <div style="width:65%" class="col-sm-8 col-form-label">
+                <form [formGroup]="dropDownForm">
+                <ng-multiselect-dropdown
+                     [placeholder]="'Select Your Category'"
+                    [settings]="dropdownSettings"
+                    [data]="dropdownList"
+                    formControlName="myItems"
+                    (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                    (onDeSelect)="onItemDeSelect($event)"
+                    (onDeSelectAll)="onUnSelectAll()">
+                </ng-multiselect-dropdown>
+            </form>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-4 col-form-label" style="width: 30%;">Gross Price</label>
+                <input class="col-sm-4" name="grossPrice" placeholder="Min" type="number" (input)="minGrossPriceValue($event)" class="form-control" id="inputPassword">
+                <input class="col-sm-4" name="grossPrice" placeholder="Max" type="number" (input)="maxGrossPriceValue($event)" class="form-control" id="inputPassword">
+        </div>
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-4 col-form-label" style="width: 30%;">Discount</label>
+            <div class="col-sm-8">
+                <input type="range" min="0" max="100" step="1" class="form-control-range slider" value="1" id="slider" (input)="valueChanged($event)">
+                <label for="formControlValue">{{sliderValue}}</label>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-4 col-form-label" style="width: 30%;">Quantity</label>
+                <input class="col-sm-4" name="availableQuantity" placeholder="Min" type="number" (input)="minAvailableQuantityValue($event)" class="form-control" id="inputPassword">
+                <input class="col-sm-4" name="availableQuantity" placeholder="Max" type="number" (input)="maxAvailableQuantityValue($event)" class="form-control" id="inputPassword">
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="dismiss()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">Save</button>
+    </div>
+</form>

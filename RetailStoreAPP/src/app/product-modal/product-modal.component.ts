@@ -117,7 +117,7 @@ export class ProductModalComponent implements OnInit {
       data.productDescription = this.EditProductDetail.productDescription;
     else
       data.productDescription = this.productDescription;
-    if (this.category == "")
+    if (this.category == ""||this.category==undefined)
       data.category = this.EditProductDetail.category;
     else
       data.category = this.category;
